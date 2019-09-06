@@ -1,0 +1,70 @@
+注意： 项目操作过程中，一般不会直接在master主分支下修改代码，而是在分支上修改完毕后合并到主分支下！！！
+
+一 如何将本地仓库上传到github?
+1. git init -> 初始化一个本地仓库
+2. git remote add origin URL -> 关联需要建立连接的github仓库
+3. git add .  -> 提交到暂存区
+4. git commit -am "" -> 提交到工作区
+5. git pull --rebase origin master -> 将远程仓库github上的readme文件拉取到本地
+6. git push origin master
+
+二 如何将github上的远程仓库拉取到本地
+1. git clone URL -> 克隆需要拉取的远程仓库地址
+2. git add . 
+3. git commit -am ""
+4. git push origin master
+5. git remote -v -> 查看所有关联的远程仓库版本
+
+三 如何创建分支？
+1. git branch dev -> 创建一个叫做dev的分支
+2. git branch -d dev -> 删除dev分支 （提交到工作区的情况下才能删除成功）
+3. git branch -D dev -> 强制删除
+4. git branch -> 查看仓库下总共有多少分支
+5. git checkout dev -> 切换到dev分支目录下
+6. git checkout -b dev -> 创建dev分支并切换到该分支目录下
+7. 在主分支下 git merge dev -> 合并dev分支 （前提dev分支中修改的内容已经提交到工作区了）
+8. git merge --no-ff -m "merge with no-ff" dev -> 禁用fast forward模式 
+加 --no-ff 可以添加当前操作的描述信息 “”里面为对代码的描写信息
+9. git log --gragh -> 查看分支操作历史
+
+四 BUG分支  -》 抽时间练习一下！
+软件开发中，bug就像家常便饭一样。有了bug就需要修复，在Git中，由于分支是如此的强大，所以，
+每个bug都可以通过一个新的临时分支来修复，修复后，合并分支，然后将临时分支删除。
+情况一： 如果你想修改这个bug, 但是当前的dev分支又没有把工作提交，此时你可以怎么做？
+答： 
+    1. 使用 git stash 将当前的工作区先预存起来
+    2. git status 查看工作区状态 -> 是一个干净的去区间状态
+    3. git checkout -b issue-001 在dev分支下新建bug分区并切换到bug分区issue-001
+    4. 修复完代码后 git add . / git commit -m "bug已修复" 提交到工作区
+    5. git checkout dev -> 重新切换到dev区域
+    6. git merge --no-ff -m "bug修改完毕并完成合并" issue-001 -> 将修复后的bug分支下的代码合并到dev分支下
+    7. 此时再将代码恢复stash状态 git stash list / git stash apply
+    8. 最后 回到 master主分支下 进行最后的总合并然后再次总体提交
+    注意: 恢复工作现场时 要对 stash的内容进行删除 
+        一是用 git stash apply 恢复，但是恢复后，stash内容并不删除，你需要用 git stash drop 来 删除；
+        另一种方式是用 git stash pop ，恢复的同时把stash内容也删了 
+
+五 多人协作编程
+当你从远程仓库克隆时，实际上Git自动把本地的 master 分支和远程的 master 分支对应起来了， 
+并且，远程仓库的默认名称是 origin 。
+1. git push origin master/dev -> 本地 推送master/dev分支 到远程
+2. git pull origin master/dev -> 从远程 拉取master/dev分支 回本地
+因此，多人协作的工作模式通常是这样：
+1. 首先，可以试图用 git push origin <branch-name> 推送自己的修改； 
+2. 如果推送失败，则因为远程分支比你的本地更新，需要先用 git pull 试图合并； 
+3. 如果合并有冲突，则解决冲突，并在本地提交；
+4. 没有冲突或者解决掉冲突后，再用 git push origin <branch-name> 推送就能成功！
+如果 git pull 提示 no tracking information ，则说明本地分支和远程分支的链接关系没有创建，
+用命令 git branch --set-upstream-to <branch-name> origin/<branch-name> 。
+
+
+小结:
+    1. 查看远程库信息，使用 git remote -v ；
+    2. git pull origin "分支名" -> 此时会从远程库里面抓取 符合"分支名"的库, 并且与本地合并
+    3. git branch --set-upstream-to="远程分支名" "本地分支名"  -> git branch --set-upstream-to=origin/dev dev
+    4. 本地新建的分支如果不推送到远程，对其他人就是不可见的； 
+    5. 从本地推送分支，使用 git push origin branch-name ，
+    6. 如果推送失败，先用 git pull 抓 取远程的新提交； 
+    7. 在本地创建和远程分支对应的分支，使用 git checkout -b branch-name origin/branchname ，
+       本地和远程分支的名称最好一致( 或是直接 ) 
+    8. 建立本地分支和远程分支的关联，使用`git branch --set-upstream="远程分支名" "本地分支 名" ; 从远程抓取分支，使用 git pull ，如果有冲突，要先处理冲突。
