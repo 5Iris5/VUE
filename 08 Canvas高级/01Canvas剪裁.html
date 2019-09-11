@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas剪裁(遮罩效果)2019/09/11/09:52</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        canvas{
+            display: block;
+            margin: 50px auto;
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <!-- 如何绘制剪裁路径?  clip(剪裁元素, 剪裁路径) -->
+    <canvas width="500px" height="500px"></canvas>
+    <script>
+        // 第一步: 创建一个路径实例
+        // let path1 = new Path2D();
+        // // 第二步: 绘制一个三角形路径  -> moveTo()起始位置 lineTo()连接位置
+        // path1.moveTo(250, 250);
+        // path1.lineTo(200, 300);
+        // path1.lineTo(300, 300);
+        // path1.lineTo(250, 250);  // 强制闭合
+        // 第三步: 绘制一个矩形  -> 获取canvas元素   canvas格式化上下文  绘制一个有颜色的矩形
+        let c = document.querySelector("canvas");  
+        let ctx = c.getContext("2d");
+        // ctx.fillStyle = "orange";
+        // ctx.fillRect(0,0,500,500);   // 填充整个canvas面包区域
+        // // 第四步: 设置剪切区域
+        // ctx.clip(path1);
+        // // 第五步: 重新填充颜色 使剪裁内容展示出来
+        // ctx.fillStyle = "white";
+        // ctx.fillRect(0,0,500,500);
+
+
+        // 同心圆 1)evenodd奇偶环绕原则 -> 最外层的一定会显示出来 2)nonezero非零环绕原则,默认的原则
+        let path2  = new Path2D();
+        path2.arc(250,250,15,0,Math.PI*2);
+        path2.arc(250,250,20,0,Math.PI*2);
+        path2.arc(250,250,25,0,Math.PI*2);
+        path2.arc(250,250,30,0,Math.PI*2);
+        path2.arc(250,250,35,0,Math.PI*2);
+        ctx.fillStyle = "red";
+        ctx.fillRect(0,0,500,500);
+        ctx.clip(path2, "evenodd");
+        ctx.fillStyle = "white";
+        ctx.fillRect(0,0,500,500);
+
+        
+    </script>
+</body>
+</html>

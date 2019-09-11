@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas像素处理2019/09/11/14:10</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        canvas{
+            /* display: block; */
+            /* margin: 10px auto; */
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="500px" height="500px"></canvas>
+    <canvas id="canvas2" width="500px" height="500px"></canvas>
+    <script>
+        // 第一步: 获取canvas画布 渲染2d格式上下文
+        let c1 = document.getElementById("canvas1");
+        let ctx1 = c1.getContext("2d");
+        let c2 = document.getElementById("canvas2");
+        let ctx2 = c2.getContext("2d");
+        let imgData;  // 获取图片像素值的变量
+        // 第二步: 创建一个图片实例对象 添加图片路径
+        let img = new Image();
+        img.src = "../images/01.jpg";
+        // 第三步: 加载图片  设置图片摆放位置  获取图片像素值
+        img.onload = function(){
+            ctx1.drawImage(img, 0, 0, 500, 500);
+            // imgData = ctx1.getImageData(0, 0, 500, 500);  // 本地会出现跨域问题
+            // console.log(imgData)
+            // 第四步: 在新的位置写入获取的图片数据
+            // 1)获取的完整的图片像素数据 三个参数 -> 原图片完整的像素数据 重新摆放位置的起始点x y
+            // ctx2.putImageData(imgData, 0, 0);  
+            // 2)截取图片某个部分的像素数据  九个参数 -> 原图片 原图片中需要获取到的某个部分的像素数据范围 新摆放位置
+            imgData = ctx1.getImageData(175, 185, 60, 40);
+            ctx2.drawImage(c1, 175, 185, 60, 40, 150, 200, 160, 140)
+        }
+        
+
+    </script>
+</body>
+</html>

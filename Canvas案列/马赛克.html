@@ -5,8 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Canvas马赛克效果</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .wrap{
+            width: 380px;
+            height: 500px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+        }
+        .tabs{
+            box-sizing: border-box;
+            height: 70px;
+            border-top: 1px dotted #ccc;
+            padding: 10px 40px;
+        }
+        .tabs img{
+            width: 50px;
+            height: 50px;
+        }
+        .tabs img.uploadImg{
+            float: left;
+        }
+        .tabs img.downloadImg{
+            float: right;
+        }
+    </style>
 </head>
 <body>
-    
+    <div class="wrap">
+        <canvas width="380px" height="430"></canvas>
+        <div class="tabs">
+            <img class="uploadImg" src="../images/upload.png" alt="">
+            <img class="downloadImg" src="../images/download.png" alt="">
+        </div>
+    </div>
 </body>
 </html>

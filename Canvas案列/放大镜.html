@@ -4,9 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Canvas放大镜效果</title>
+    <title>Canvas放大镜效果2019/09/11/16:00</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        canvas{
+            background: #ccc;
+        }
+    </style>
 </head>
 <body>
-    
+    <canvas id="canvas1" width="300px" height="300px"></canvas>
+    <canvas id="canvas2" width="300px" height="300px"></canvas>
+
+    <script>
+        let c1 = document.getElementById("canvas1");  // 创建canvas画布
+        let ctx1 = c1.getContext("2d");  // 绘制上下文
+        let c2 = document.getElementById("canvas2");
+        let ctx2 = c2.getContext("2d");
+        // 新展示出来的图片是否具有平滑效果
+        ctx2.imageSmoothingEnabled = true;  // false -> 马赛克效果 true -> 无马赛克效果
+        let imgData;
+        let img = new Image();
+        img.src = "../images/01.jpg";
+        img.onload = function(){
+            ctx1.drawImage(img, 0, 0, 300, 300); 
+            // 截取画布C1中的图片数据片段
+            // imgData = ctx1.getImageData(100, 70, 58, 20);
+            // ctx2.drawImage(c1, 100, 70, 58, 20, 0, 0, 300, 300);
+        }
+
+        // 鼠标划过图片,该图片区域出现放大效果
+        c1.addEventListener("mousemove", function(e){
+            ctx2.drawImage(c1, e.offsetX-15, e.offsetY-15, 30, 30, 0, 0, 300, 300);
+        })
+    </script>
 </body>
 </html>

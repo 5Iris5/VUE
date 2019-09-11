@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas动画2019/09/11/10:26</title>
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;   
+        }
+        canvas{
+            display: block;
+            /* margin: 50px auto; */
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas width="500px" height="500px"></canvas>
+    <script>
+        // 定时器模拟动画效果 
+        let c = document.querySelector("canvas");
+        let ctx = c.getContext("2d");
+        let y = 20;
+        // setInterval(() => {
+        //     ctx.beginPath();  // 切断连笔效果
+        //     ctx.clearRect(0,0,500,500);   // 清除上一次的圆圈轨迹!
+        //     ctx.fillStyle = "white";
+        //     ctx.arc(250,y++,15,0,Math.PI*2);
+        //     ctx.fill();
+        // }, 1000/60);
+
+        // canvas画布与浏览器窗口大小一致
+        !function setSize(){
+            window.onresize = arguments.callee;
+            c.width = window.innerWidth;
+            c.height = window.innerHeight;
+        }()
+
+        // 连尾动画  原理: 利用明暗变化产生视觉错乱效果
+        setInterval(()=>{
+            ctx.beginPath();
+
+            ctx.fillStyle = "rgba(0,0,0,.08)";   // -> 透明度数值越低,拖尾效果越明显
+            ctx.fillRect(0,0,c.width,c.height);
+            ctx.fill();  // -> 可写可不写
+
+            ctx.fillStyle = "white";
+            ctx.fillRect(100,y++,2,10);
+            ctx.fill();   
+            
+            // ctx.fillStyle = "skyblue";
+            ctx.arc(250,y++,30,0,Math.PI*2);
+            ctx.fill()
+        }, 1000/60)
+    </script>
+</body>
+</html>

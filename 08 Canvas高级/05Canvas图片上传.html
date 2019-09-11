@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas图片放大/2019/09/11/17:28</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        canvas{
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas width="300px" height="300px"></canvas>
+    <!-- onchange 事件会在输入框的内容改变时发生 -->
+    <input type="file" accept="image/*" type="file" name="imageFile" onchange="upload()">
+
+    <script>
+        function upload(){
+            let file = document.querySelector('input[type="file"]').files[0] ;
+            console.log(file)
+            // 获取选择的图片 -> 此处是图片类型
+            let reader = new FileReader();
+            // 读取文件 并 将文件以URL的形式保存在 result 属性中 base64格式 ?
+            reader.readAsDataURL(file);
+            // 文件读取完成时触发函数
+            reader.onload = function(e){
+                // base64格式图片地址
+                let result = e.target.result;
+                console.log("result: " + result);
+                // 创建一个图片实例
+                var image = new Image();
+                // 设置image图片实例的地址为base64的地址
+                image.src = result;
+                image.onload = function(){
+                    // 获取canvas画布元素
+                    var c = document.querySelector("canvas");
+                    // 2d格式渲染上下文
+                    var ctx = c.getContext("2d");
+                    // 将画布大小设置为上传图片的大小
+                    c.width = image.width;
+                    c.height = image.height;
+                    // 将上传的图片绘制在canvas画布上
+                    ctx.drawImage(image, 0, 0, image.width, image.height);
+                    // dataUrl 为压缩后的图片资源，可将其上传到服务器  
+                    let dataUrl = c.toDataURL("image/png", 1)
+                }
+            }
+        }
+    </script>
+</body>
+</html>

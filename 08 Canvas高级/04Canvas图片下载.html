@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas下载图片/2019/09/11/16:40</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        canvas{
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="300" height="300"></canvas>
+    <button>下载图片</button>
+    <script>
+        let c1 = document.getElementById("canvas1");
+        let ctx1 = c1.getContext("2d");
+        let imgData;
+        let img = new Image();
+        img.src = "../images/01.jpg";
+        img.onload = function(){
+            ctx1.drawImage(img, 0, 0, 300, 300);
+            imgData = ctx1.getImageData(0, 0, 300, 300)
+            // 将图片地址转换为base64的格式
+            // console.log(c1.toDataURL("../images/01.jpg"))
+            ctx1.fillStyle = "white";
+            ctx1.fillRect(260,0,20,20);
+        }
+
+        let downloadBtn = document.querySelector("button");
+        downloadBtn.onclick = function(){
+            let base64 = c1.toDataURL("image/png", 1); // 1)图片格式 2)图片质量0-1, 数值越高, 图片质量越高
+            let downloadImg = document.createElement("a"); // 创建标签节点 img标签不行!
+            console.log(downloadImg);
+            downloadImg.href = base64;
+            downloadImg.download = "古力娜扎.png"
+            downloadImg.click();
+        }
+    </script>
+</body>
+</html>
