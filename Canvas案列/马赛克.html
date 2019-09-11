@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Canvas马赛克效果</title>
+    <title>Canvas马赛克效果/2019/09/11/23:00</title>
     <style>
-        *{
+        body{
             margin: 0;
+            padding: 0;
+        }
+        button{
+            border: none;
+            outline: none;
+            background-color: #fff;
             padding: 0;
         }
         .wrap{
@@ -16,21 +22,33 @@
             margin: 50px auto;
             border: 1px solid #ccc;
         }
+        canvas{
+            display: block;
+        }
         .tabs{
             box-sizing: border-box;
             height: 70px;
             border-top: 1px dotted #ccc;
             padding: 10px 40px;
         }
-        .tabs img{
+        .tabs .uploadImg{
+            float: left;
             width: 50px;
             height: 50px;
+            background-image: url(../images/upload.png);
+            background-size: cover;
         }
-        .tabs img.uploadImg{
-            float: left;
-        }
-        .tabs img.downloadImg{
+        .tabs .downloadImg{
             float: right;
+            width: 50px;
+            height: 50px;
+            background-image: url(../images/download.png);
+            background-size: cover;
+        }
+        .tabs .uploadImg input{
+            opacity: 0;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
@@ -38,9 +56,60 @@
     <div class="wrap">
         <canvas width="380px" height="430"></canvas>
         <div class="tabs">
-            <img class="uploadImg" src="../images/upload.png" alt="">
-            <img class="downloadImg" src="../images/download.png" alt="">
+            <div class="uploadImg">
+                <input type="file" accept="image/*" type="file" name="imageFile" onchange="upload()">
+            </div>
+            <button class="downloadImg"></button>
         </div>
     </div>
+
+    <script>
+        let c = document.querySelector("canvas");
+        let ctx = c.getContext("2d");
+        function upload(){
+            let imgFile = document.querySelector(".uploadImg input[type='file']").files[0];
+            // console.log(imgFile);
+            // 创建FileReader对象
+            let reader = new FileReader();
+            // 开始读取指定的Blob对象或File对象中的内容. 当读取操作完成时,readyState属性的值会成为DONE，
+            // 如果设置了onloadend事件处理程序,则调用之.同时,result属性中将包含一个data:URL格式的字符串以表示所读取文件的内容.
+            reader.readAsDataURL(imgFile);
+            // 文件读取完成后触发该函数
+            reader.onload = function(e){
+                let result = e.target.result;
+                let image = new Image();
+                image.src = result;
+                image.onload = function(){
+                    ctx.drawImage(image, 0, 0, 380, 430);
+                    dataUrl = c.toDataURL("image/jpeg", 1);
+                    c.addEventListener("mousedown",  coverMosaics);
+                }
+            }
+        }
+
+        function coverMosaics(e = window.e){
+            // console.log(e)
+            c.onmousemove = function(e){
+                console.log("鼠标移动")
+                ctx.fillStyle = "rgba(255, 255, 255, .2)";
+                ctx.fillRect(e.offsetX-3, e.offsetY-3, 6, 6);
+                ctx.fillSmoothingEnabled = false;
+                dataUrl = c.toDataURL("image/jpeg", 1);
+            }
+            c.onmouseup = function(e){
+                c.onmousemove = null;
+            }
+        }
+
+        let downloadBtn = document.querySelector(".downloadImg");
+        let dataUrl;
+        downloadBtn.onclick = function(){
+            // console.log(dataUrl);
+            let downloadImage = document.createElement("a");
+            downloadImage.href = dataUrl;
+            downloadImage.download = "下载成功.jpeg"
+            downloadImage.click();
+        }
+    </script>
 </body>
 </html>
