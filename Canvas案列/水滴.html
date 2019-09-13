@@ -4,9 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Canvas水滴效果/2019/09/12</title>
+    <title>Canvas水滴效果/2019/09/12/09:30</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        canvas{
+            display: block;
+            background-color: rgb(0, 0, 0);
+        }
+    </style>
 </head>
 <body>
-    
+    <canvas></canvas>
+    <script>
+        let c = document.querySelector("canvas");
+        let ctx = c.getContext("2d");
+
+        // 画布大小始终与浏览器窗口大小保持一致
+        !function setSize(){
+            window.onresize = arguments.callee;
+            c.width = document.documentElement.clientWidth;
+            c.height = document.documentElement.clientHeight;
+        }()
+
+        // 用一个数组存储水滴
+        let oRain = [];
+
+        // 获得一个最小值到最大值的随机数
+        function randomNum(min, max){
+            return Math.random() * (max - min) + min;
+        }
+
+        // 创建一个构造函数
+        function Rain(){  // 存放一些需要个性化设置的属性
+
+        }
+
+        // Rain对象的原型
+        Rain.prototype = {  // 存放一些公共的方法
+            /*
+                初始化函数:
+                    1. 雨滴(矩形)的初始位置
+                    2. 雨滴下落的速度
+                    3. 距离屏幕下方多远消失的位置
+                    4. 水花(圆)的初始半径
+                    5. 水花递增的半径  
+            */
+            init: function(){
+               this.x = randomNum(0, c.width);
+               this.y = 0;
+               this.speed = randomNum(5, 16);
+               this.h = c.height * .85;
+               this.r = randomNum(5, 21);
+               this.speedR = 1;
+            },
+            /*
+                画: -> 什么情况下画雨滴 什么情况下花圆
+                    1. 雨滴的位置 < 消失位置 -> 画雨滴(矩形) 反之 画水花(圆)
+            */
+            draw: function(){
+                if(this.y < this.h){
+                    ctx.beginPath();
+                    ctx.fillStyle = "rgb(51, 202, 157)";
+                    ctx.fillRect(this.x, this.y, 3, 15);
+                }else{
+                    ctx.beginPath();
+                    ctx.strokeStyle = "rgb(51, 202, 157)";
+                    ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+                    ctx.stroke();
+                }
+            },
+            /*
+                水滴移动:
+                    1. 水滴什么情况下会往下移动
+                    2. 什么时候会出现水花效果
+                    3. 什么情况下会重新开始,回到最顶部,进行新一次的重绘
+            */
+            move: function(){
+                if(this.y < this.h){
+                    this.y += this.speed;
+                }else{
+                    if(this.r < 120){
+                        this.r += this.speedR
+                    }else{
+                        this.init();
+                    }
+                }
+                this.draw();
+            }   
+        }
+
+        // 间隔一段时间创建一定数量的水滴
+        function createRain(num){
+            for(let i = 0; i < num; i++){
+                setTimeout(() => {
+                    var rain = new Rain();
+                    rain.init();
+                    rain.draw();
+                    oRain.push(rain);
+                }, 300*i);
+            }
+        }
+        createRain(35);
+
+        // 模拟下雨效果
+        setInterval(()=>{
+            ctx.beginPath()
+
+            ctx.fillStyle = "rgba(0, 0, 0, .06)";
+            ctx.fillRect(0, 0, c.width, c.height);
+            
+            // for(var item of oRain){
+            //     item.move();
+            // }  等同于
+            oRain.forEach((val, index)=>{
+                oRain[index].move();
+            })
+            
+        }, 1000/60)
+    </script>
 </body>
 </html>
