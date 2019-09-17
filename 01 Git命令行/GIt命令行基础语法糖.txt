@@ -57,6 +57,22 @@
 如果 git pull 提示 no tracking information ，则说明本地分支和远程分支的链接关系没有创建，
 用命令 git branch --set-upstream-to <branch-name> origin/<branch-name> 。
 
+六 补充:
+    查看：
+        git diff 命令，在修改未提交时，查看做出的修改
+        git status 查看状态
+        git log可以查看提交历史，以便确定要回退到HEAD之前的哪个版本
+        git reflog查看全部commit过的版本信息
+        cat filename 查看文件内容
+    版本回退：
+        git reset --hard commit_id命令，可以回到指定版本 commit_id还可以用 HEAD;HEAD^;HEAD~100，表示为当前版本的前多少个版本
+        ps：HEAD指向的版本就是当前版本命令
+    撤销修改：
+        git checkout – filename命令
+            1：修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状 态；
+            2：已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的 状态。总之，就是让这个文件回到最近一次git commit或git add时的状态。
+        git reset HEAD 命令，可以清除添加到暂存区的修改，但是在工作区中未add的修 改，还需要checkout。
+
 
 小结:
     1. 查看远程库信息，使用 git remote -v ；
