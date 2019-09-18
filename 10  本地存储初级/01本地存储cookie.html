@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>本地存储cookie2019/09/18:10:25</title>
+</head>
+<body>
+    <script>
+        /*
+            localStorage 存储没有上限,但是超过10M会很卡   ->   存储交互数据,没必要在服务器里面永久存储的
+            Cookie 存储在浏览器为该网站开辟的某一个区域内(域名 -> 保密性)   ->  存储有期限的数据
+        */
+        // 如何在网页里面存储Cookie? -> 键值对
+        document.cookie = "username=Iris";
+        document.cookie = "age=1";
+        // 如何删除Cookie存储的数据?  ->  操作时间值
+
+        localStorage.setItem("where", "hunan")
+        localStorage.getItem("where")
+    </script>
+</body>
+</html>
