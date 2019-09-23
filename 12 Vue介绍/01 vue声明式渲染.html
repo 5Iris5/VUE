@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>创建vue实例2019/09/20/10:00</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{msg}}
+        <!--v-bind:title="msg2" 将这个元素节点的 title 特性和 Vue 实例的 message 属性保持一致-->
+        <p v-bind:title="msg2">
+            鼠标悬停几秒钟查看此处动态绑定的提示信息
+        </p>
+    </div>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                // 文本插值
+                msg: 'hello Vue!',
+                // 绑定元素特性
+                msg2: '页面加载于' + new Date().toLocaleString()
+            }
+        })
+        app.msg = 'I have changed the data!'
+        // app.msg2 = "I have changed the msg2'data!"
+    </script>
+</body>
+</html>

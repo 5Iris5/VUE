@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue条件与循环2019/09/23/17:40</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <p v-if="seen">展示我!</p>
+    <ol>
+    <!--遍历todos数组里面的数组项-->
+        <li v-for="todo in todos">
+            {{todo.text}}
+        </li>
+    </ol>
+</div>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            seen: true,
+            todos: [
+                {text: 'step1'},
+                {text: 'step2'},
+                {text: 'step3'}
+            ]
+        }
+    })
+    // todos数组最后一项添加一个新数组
+    app.todos.push({text: 'add the last step'})
+    // todos数组最前面添加一个新数组
+    app.todos.unshift({text: 'add the fist step'})
+</script>
+</body>
+</html>
