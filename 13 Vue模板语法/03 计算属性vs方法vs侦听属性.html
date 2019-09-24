@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue计算属性vs方法vs侦听属性2019/09/24/11:00</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <style>
+        body,p{
+            margin: 0;
+            padding: 0;
+        }
+        p{
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <p>初始值: {{msg}}</p>
+    <p>computed方法反转值: {{reverseMsg}}</p>
+    <p>methods方法反转值: {{changeMsg()}}</p>
+    <!--<img v-bind:src="imgUrl" alt="computed属性的特征">-->
+    <img v-bind:src = "imgsUrl[0].src" :alt = 'imgsUrl[0].alt'>
+</div>
+<script>
+    // 设置模板的初衷 -> 为了简单运算 -> 任何复杂的逻辑 -> 应当使用计算属性 -> computed
+    // 监听data里面某个变量的变化 -> watch
+    let app = new Vue({
+        el: '#app',
+        data: {
+            msg: 'what?!',
+            // imgUrl: '../images/computed.png',
+            imgsUrl: [
+                {src: '../images/computed.png', alt: "computed属性的特征"}
+            ]
+        },
+
+        // 注意: app.reverseMsg依赖于app.msg, 因此只有当app.msg发生改变时,所有依赖app.reversedMessage的绑定才会更新
+        // 如果是通过set函数设置的newValue值,那么可以影响到app.msg发生改变
+        computed: {
+            reverseMsg: {
+                get: function () {
+                    return this.msg.split('').reverse().join('')
+                },
+                // set: function (newValue) {
+                //     this.msg = newValue
+                // }
+            }
+        },
+
+        // 观察和响应 Vue 实例上的数据变动,如果数据发生变动,则触发watch函数
+        watch: {
+            // 监听msg的变化,如果发生变化,则触发函数msg
+            msg: function (newValue) {
+                // if~else语句 -> 会一直进入else语句内部 -> why?
+                // if(newValue == 'Iris'){
+                //     return this.msg = newValue + '小可爱'
+                // }else{
+                //     return this.msg = 'msg has changed!'
+                // }
+                if(newValue == 'Iris')
+                    return this.msg = newValue + '小可爱'
+            }
+        },
+
+        // methods -> 每当触发重新渲染时，调用方法将总会再次执行函数!!!
+        // computed -> 只在相关响应式依赖发生改变时它们才会重新求值!!!
+        methods: {  // -> 需要通过方法调用
+            changeMsg: function () {
+                return this.msg.split('').reverse().join('')
+            }
+        }
+    })
+</script>
+</body>
+</html>

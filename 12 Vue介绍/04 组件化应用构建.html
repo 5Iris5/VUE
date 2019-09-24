@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue组件化应用构建初了解2019/09/24/09:50</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <ol>
+        <!--创建一个 todo-item 组件的实例-->
+        <todo-item v-for="list in lists" v-bind:list="list" v-bind:key="list.id"></todo-item>
+        <!--<todo-item v-for="list in lists" v-bind:list="list"></todo-item>-->
+    </ol>
+</div>
+<script>
+    // 定义一个名为 todo-item 的新组件
+    Vue.component('todo-item', {
+        // 子单元通过 prop 接口与父单元进行了良好的解耦
+        props: ['list'],
+        template: '<li>{{list.text}}</li>'
+    })
+
+    let app = new Vue({
+        el: '#app',
+        data: {
+            lists: [
+                {id: 0, text: '苹果🍎'},
+                {id: 1, text: '香蕉🍌'},
+                {id: 2, text: "西红柿🍅"}
+            ]
+        }
+    })
+</script>
+</body>
+</html>
