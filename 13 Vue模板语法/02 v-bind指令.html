@@ -5,9 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>class与style绑定v-bind指令2019/09/23/11:30</title>
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_1380801_e5n4kqvt7m5.css">
     <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+        #app,#example{
+            margin: 20px 0 0 20px;
+        }
+        ol{
+            margin-left: 20px;
+            color: #ff0036;
+        }
+        ol li{
+            margin-left: 30px;
+            color: #000;
+        }
+        .prod_left{
+            width: 234px;
+        }
+        ul{
+            width: 234px;
+            height: 170px;
+            padding: 8px 5px;
+            background-color: #5f5750;
+        }
+        ul li{
+            float: left;
+            width: 67px;
+            height: 72px;
+            margin: 8px 0;
+            padding: 0 5px;
+            border-right: 1px solid rgba(255, 255, 255, .2);
+        }
+        ul li.last{
+            border-right: none;
+            margin-right: 5px;
+            padding-right: 0;
+        }
+        ul a{
+            display: block;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+            opacity: .7;
+            text-align: center;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, .2);
+        }
+        ul a.last{
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        ul a em.iconfont,span{
+            display: block;
+        }
+        ul a em.iconfont{
+            font-size: 24px;
+            padding-top: 15px;
+        }
+        ul a span{
+            font-size: 12px;
+        }
+        ul a.active{
+            color: #fff;
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
+<div id="app">
+    <div class="box">
+        <p>一. 绑定HTML Class属性</p>
+        <ol>类名渲染
+            <li>是否展示类名</li>
+            <li>多个类名任意切换</li>
+        </ol>
+    </div>
+    <div class="box">
+        <p>二. 绑定内联样式</p>
+        <ol>
+            <li>通过数组 -> 将多个样式对象应用到同一个元素身上</li>
+        </ol>
+    </div>
+</div>
+<div id="example">
+    <h4>小案例-->v-bind类名渲染</h4>
+    <div class="prod_left">
+        <ul>
+            <li><a href="#" class="active"><em class="iconfont icon-shizhong"></em><span>小米秒杀</span></a></li>
+            <li><a href="#"><em class="iconfont icon-qiye"></em><span>企业团购</span></a></li>
+            <li class="last"><a href="#"><em class="iconfont icon-F"></em><span>F码通道</span></a></li>
+            <li><a href="#" class="last"><em class="iconfont icon-zy_xinyongka"></em><span>米粉卡</span></a></li>
+            <li><a href="#" class="last"><em class="iconfont icon-qian"></em><span>以旧换新</span></a></li>
+            <li class="last"><a href="#" class="last"><em class="iconfont icon-menu-cwgl-normal"></em><span>话费充值</span></a></li>
+        </ul>
+    </div>
+</div>
+<script>
+    // 操作元素的 class 列表和内联样式是数据绑定的一个常见需求,因为它们都是属性，所以我们可以用 v-bind 处理它们!
+    let app = new Vue({
+        el: '#example',
+        data: {
 
+        }
+    })
+</script>
 </body>
 </html>
