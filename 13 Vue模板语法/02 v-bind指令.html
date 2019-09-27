@@ -94,15 +94,19 @@
     </div>
 </div>
 <div id="example">
+
+
+
+
     <h4>小案例-->v-bind类名渲染</h4>
     <div class="prod_left">
         <ul>
-            <li><a href="#" class="active"><em class="iconfont icon-shizhong"></em><span>小米秒杀</span></a></li>
-            <li><a href="#"><em class="iconfont icon-qiye"></em><span>企业团购</span></a></li>
-            <li class="last"><a href="#"><em class="iconfont icon-F"></em><span>F码通道</span></a></li>
-            <li><a href="#" class="last"><em class="iconfont icon-zy_xinyongka"></em><span>米粉卡</span></a></li>
-            <li><a href="#" class="last"><em class="iconfont icon-qian"></em><span>以旧换新</span></a></li>
-            <li class="last"><a href="#" class="last"><em class="iconfont icon-menu-cwgl-normal"></em><span>话费充值</span></a></li>
+            <li><a href="#" v-bind:class="{active: isActive}" v-on:mouseover="handleMouseover" @mouseout="handleMouseout"><em class="iconfont icon-shizhong"></em><span>小米秒杀</span></a></li>
+            <li><a href="#" :class="{active: isActive}" @mouseover="handleMouseover" @mouseout="handleMouseout"><em class="iconfont icon-qiye"></em><span>企业团购</span></a></li>
+            <li class="last"><a href="#" :class="{active: isActive}" @mouseover="handleMouseover" @mouseout="handleMouseout"><em class="iconfont icon-F"></em><span>F码通道</span></a></li>
+            <li><a href="#" class="last" :class="{active: isActive}" @mouseover="handleMouseover" @mouseout="handleMouseout"><em class="iconfont icon-zy_xinyongka"></em><span>米粉卡</span></a></li>
+            <li><a href="#" class="last" :class="{active: isActive}" @mouseover="handleMouseover" @mouseout="handleMouseout"><em class="iconfont icon-qian"></em><span>以旧换新</span></a></li>
+            <li class="last"><a href="#" class="last" :class="{active: isActive}" @mouseover="handleMouseover" @mouseout="handleMouseout"><em class="iconfont icon-menu-cwgl-normal"></em><span>话费充值</span></a></li>
         </ul>
     </div>
 </div>
@@ -111,7 +115,16 @@
     let app = new Vue({
         el: '#example',
         data: {
-
+            isActive: false
+        },
+        // 遗留问题: 点击其中一个,其余的全部被触发了!!!
+        methods: {
+            handleMouseover: function (e) {
+                this.isActive = true
+            },
+            handleMouseout: function () {
+                this.isActive = false
+            }
         }
     })
 </script>

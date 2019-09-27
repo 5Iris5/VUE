@@ -24,6 +24,7 @@
     <p>methods方法反转值: {{changeMsg()}}</p>
     <!--<img v-bind:src="imgUrl" alt="computed属性的特征">-->
     <img v-bind:src = "imgsUrl[0].src" :alt = 'imgsUrl[0].alt'>
+    <p>{{getData}}</p>
 </div>
 <script>
     // 设置模板的初衷 -> 为了简单运算 -> 任何复杂的逻辑 -> 应当使用计算属性 -> computed
@@ -48,6 +49,15 @@
                 // set: function (newValue) {
                 //     this.msg = newValue
                 // }
+            },
+            getData: {
+                get: function () {
+                    return "测试"
+                },
+                set: function (val) {
+                    // set里面的参数val为get里面修改的值
+                    console.log(val)
+                }
             }
         },
 
