@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue组件的使用</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+</head>
+<body>
+    <div id="box1">
+        <vue-box></vue-box>
+        <vue-box2></vue-box2> <!--无效的 -》 vue-box2是局部组件-->
+    </div>
+    <vue-box></vue-box>  <!--无效的 -》 缺少一个实例化的根元素-->
+    <div id="box2">
+        <vue-box></vue-box>
+        <vue-box2></vue-box2>
+    </div>
+    <script>
+        Vue.component('vue-box',{
+            template: `
+                <div>
+                    我是全局组件vue-box
+                    <p>please call me {{name}}, 如果我在div根元素外面，那么我就不会被展示</p>
+                    <ul>
+                        <li v-for="item in itemlists">{{item}}</li>
+                    </ul>
+                    <vue-box-child></vue-box-child>
+                </div>
+            `,
+            data: function(){
+                return{
+                    name: 'Lisa',
+                    itemlists: ['NO.1', 'NO.2', 'NO.3', '组件内部嵌套的子组件，需要写在对应的组件模块template内部']
+                }
+            },
+            // 组件嵌套
+            components: {
+                "vue-box-child": {
+                    template: `<div>我是全局组件vue-box内部嵌套的子组件vue-box-child</div>`
+                }
+            }
+        })
+        let box1 = new Vue({
+            el: '#box1',
+            data:{
+                
+            }
+        })
+        let box2 = new Vue({
+            el: '#box2',
+            data:{
+                
+            },
+            components: {
+                "vue-box2": {
+                    template: `<div>我是局部组件vue-box2</div>`
+                }
+            }
+        })
+    </script>
+</body>
+</html>
