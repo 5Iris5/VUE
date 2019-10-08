@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue组件自定义事件</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+</head>
+<body>
+    <div id="box1">
+        <vue-box1 title=" 数据 " @my-event="handleParentClick"></vue-box1>
+    </div>
+    <script>
+        let obj = {
+            template: `
+                <div class="vue-box1">
+                    <h3>我是局部组件vue-box</h3>
+                    <button @click="handleClick">Click ME !</button>
+                    <p>打印父组件通过props向子组件传递的{{title}}</p>
+                </div>
+            `,
+            props: ['title'],
+            methods: {
+                handleClick: function(){
+                    console.log("点击子组件template模块内部的按钮"),
+                    // 事件分发 -> 子组件通过调用内建的 $emit方法 传入事件名称来触发一个事件
+                    this.$emit("my-event", "利用参数传值 -> 将子组件中的数据传递给父组件")
+                }
+            }
+        }
+
+        let box1 = new Vue({
+            el: '#box1',
+            data: {
+                
+            },
+            components: {
+                "vue-box1": obj
+            },
+            methods: {
+                handleParentClick: function(data){
+                    console.log("如果子组件被触发,父组件会监听到", data)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

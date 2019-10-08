@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态组件</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <style>
+        body,ul,li,p{
+            margin: 0;
+            padding: 0;
+            list-style: none
+        }
+        .tabs{
+            display: flex;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        .tabs li{
+            flex-grow: 1;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: #eee;
+        }
+        .tabs li.show{
+            color: #26a2ff;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <keep-alive>
+            <component :is="current"></component>
+        </keep-alive>
+        <footer>
+            <ul class="tabs">
+                <li :class="{show: isShow}" @click="handleClick('we-chat')">微信</li>
+                <li @click="handleClick('addr-list')">通讯录</li>
+                <li @click="handleClick('find')">发现</li>
+                <li @click="handleClick('me')">我</li>
+            </ul>
+        </footer>
+    </div>
+    <script>
+        let weChat = {
+            template: `
+                <div class="we-chat">我是we-chat页面</div>
+            `
+        };
+        let addrList = {
+            template: `
+                <div class="addr-list">我是addr-list页面</div>
+            `
+        }
+        let find = {
+            template: `
+                <div class="find">
+                    <p>我是find页面</p>
+                    <p>展示输入内容: <span style="color: #ff3600; font-size: 12px">{{msg}}</span> </p>
+                    <input type="text" v-model="msg"/>
+                </div>
+            `,
+            data: function(){
+                return {
+                    msg: '请输入'
+                }
+            }
+        };
+        let me = {
+            template: `
+                <div class="me">我是me页面</div>
+            `
+        }
+        new Vue({
+            el: '#app',
+            data: {
+                current: "we-chat",
+                isShow: true,
+                msg: "请输入"
+            },
+            components: {
+                "we-chat": weChat,
+                "addr-list": addrList,
+                "find": find,
+                "me": me
+            },
+            methods: {
+                handleClick: function(val){
+                    this.current = val
+                }
+            }
+        })
+    </script>
+</body>
+</html>

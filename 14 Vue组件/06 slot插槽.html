@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>slot插槽</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+</head>
+<body>
+    <div id="box">
+        <vue-box>
+            <button slot="left-btn" @click="handleLeft">left-button</button>
+            <span>{{msg}}</span>
+            <button slot="right-btn">right-button</button>
+        </vue-box>
+    </div>
+    <script>
+        let obj = {
+            template: `
+                <div class="vue-box">
+                    <slot name="left-btn"></slot>
+                    
+                    <slot name="right-btn"></slot>
+                </div>
+            `
+        }
+        new Vue({
+            el: '#box',
+            data: {
+                msg: "内容区域"
+            },
+            components: {
+                "vue-box": obj
+            },
+            methods: {
+                handleLeft: function(){
+                    console.log('点击左侧按钮')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

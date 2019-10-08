@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件非父子通信</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+</head>
+<body>
+    <div id="box">
+        <example-a></example-a>
+        <example-b></example-b>
+    </div>
+    <script>
+        let bus = new Vue()
+
+        let exampleA = {
+            template: `
+                <div class="example-a">
+                    我是组件example-a
+                    <button @click="handleClickA">Click A</button>
+                </div>
+            `,
+            methods: {
+                handleClickA: function(){
+                    // 触发event事件 -> 传递消息给组件B
+                    bus.$emit("event", "来自组件A的问候")
+                }
+            },
+            mounted: function(){
+                bus.$on("again", function(data){
+                    console.log("A组件挂载的钩子函数", data)
+                })
+            }
+        }
+        let exampleB = {
+            template: `
+                <div class="example-b">
+                    我是组件example-b
+                    <button @click="handleClickB">Click B</button>
+                </div>
+            `,
+            methods: {
+                handleClickB: function(){
+                    bus.$emit("again", "来自组件B的问候")
+                }
+            },
+            mounted: function(){
+                
+                // bus.$on() -> 监听A组件内绑定的event事件函数
+                bus.$on("event", function(data){
+                    console.log("B组件挂载的钩子函数", data)
+                })
+            }
+        }
+        new Vue({
+            el: '#box',
+            components: {
+                "example-a": exampleA,
+                "example-b": exampleB,
+            }
+        })
+    </script>
+</body>
+</html>

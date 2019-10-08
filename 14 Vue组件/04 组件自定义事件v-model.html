@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue组件自定义事件之v-model</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+</head>
+<body>
+    <div id="box1">
+        <p>在父组件中打印{{msg}}</p>
+        <vue-box1 v-model="msg"></vue-box1>
+    </div>
+    <script>
+        let obj = {
+            template: `
+                <div class="vue-box1">
+                    <input type="text" v-bind:value="value" v-on:input="handleInput"/>
+                </div>
+            `,
+            props: ['value'],
+            methods: {
+                handleInput: function(evt){
+                    // 子组件内部 $emit 事件分发
+                    this.$emit("input", evt.target.value)
+                }
+            }
+        }
+
+        let box1 = new Vue({
+            el: '#box1',
+            data: {
+                msg: '测试数据'
+            },
+            components: {
+                "vue-box1": obj
+            }
+        })
+    </script>
+</body>
+</html>
