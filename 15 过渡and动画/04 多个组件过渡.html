@@ -55,10 +55,7 @@
             </keep-alive>
             <footer>
                 <ul class="tabs">
-                    <li :class="{show: isShow}" @click="handleClick('we-chat')">微信</li>
-                    <li @click="handleClick('addr-list')">通讯录</li>
-                    <li @click="handleClick('find')">发现</li>
-                    <li @click="handleClick('me')">我</li>
+                    <li v-for="item in itemLists" @click="handleClick(item.id)">{{item.content}}</li>
                 </ul>
             </footer>
         </div>
@@ -96,8 +93,13 @@
                 el: '#app',
                 data: {
                     current: "we-chat",
-                    isShow: true,
-                    msg: "请输入"
+                    msg: "请输入",
+                    itemLists: [
+                        {id: 'we-chat', content: '微信'},
+                        {id: 'addr-list', content: '通讯录'},
+                        {id: 'find', content: '发现'},
+                        {id: 'me', content: '我'}
+                    ]
                 },
                 components: {
                     "we-chat": weChat,
