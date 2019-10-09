@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>列表过渡</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .bounce-enter-active {
+            animation: bounce-in .5s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in .5s reverse;
+        }
+        @keyframes bounce-in {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <input type="text" v-model="mytext">
+        <button @click="addEle">add</button>
+        <transition-group tag="ul" name="bounce">
+            <li v-for="(item,index) in itemLists" :key="item">
+                <span>{{item}}</span>
+                <button @click="delEle(index)">delate</button>
+            </li>
+        </transition>
+    </div>
+    <script>
+        new Vue({
+            el: '#box',
+            data: {
+                mytext: '',
+                itemLists: []
+            },
+            methods: {
+                addEle: function(){
+                    // console.log(this.mytext)
+                    this.itemLists.push(this.mytext)
+                },
+                delEle: function(idx){
+                    this.itemLists.splice(idx, 1)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

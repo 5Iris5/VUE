@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>多个元素过渡</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .bounce-enter-active {
+            animation: bounce-in .5s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in .5s reverse;
+        }
+        @keyframes bounce-in {
+            0% {
+                transform: translateX(0px)
+            }
+            50% {
+                transform: translateX(120px)
+            }
+            100% {
+                transform: translateX(0px)
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <button @click="handleClick">Change!</button>
+        <transition name="bounce" mode="out-in">
+            <!-- v-show 节点展示或者隐藏 -->
+            <p v-if="isShow" key="if">我是if...</p>
+            <p v-else key="else">我是else...</p>
+        </transition> 
+    </div>
+    <script>
+        new Vue({
+            el: '#box',
+            data: {
+                isShow: true
+            },
+            methods: {
+                handleClick: function(){
+                    this.isShow = !this.isShow
+                }
+            }
+        })
+    </script>
+</body>
+</html>

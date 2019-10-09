@@ -29,17 +29,34 @@
         .tabs li.show{
             color: #26a2ff;
         }
+
+        .bounce-enter-active {
+            animation: bounce-in .5s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in .5s reverse;
+        }
+        @keyframes bounce-in {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="app">
         <keep-alive>
-            <component :is="current"></component>
+            <transition name="bounce" mode="out-in">
+                <component :is="current"></component>
+            </transition>
         </keep-alive>
         <footer>
             <ul class="tabs">
-                <li :class="{show: isShow}" @click="handleClick('we-chat')">微信</li>
-                <li @click="handleClick('addr-list')">通讯录</li>
+                <li :class="{show: isShow1}" @click="handleClick('we-chat')">微信</li>
+                <li :class="{show: isShow2}" @click="handleClick('addr-list')">通讯录</li>
                 <li @click="handleClick('find')">发现</li>
                 <li @click="handleClick('me')">我</li>
             </ul>
@@ -79,7 +96,8 @@
             el: '#app',
             data: {
                 current: "we-chat",
-                isShow: true,
+                isShow1: true,
+                isShow2: false,
                 msg: "请输入"
             },
             components: {
@@ -91,6 +109,13 @@
             methods: {
                 handleClick: function(val){
                     this.current = val;
+                    if(val == 'we-chat'){
+                        this.isShow1 = true,
+                        this.isShow2 = false
+                    }else if(val == 'addr-list'){
+                        this.isShow1 = false,
+                        this.isShow2 = true
+                    }
                 }
             }
         })

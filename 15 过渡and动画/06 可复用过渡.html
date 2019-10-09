@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>可复用过渡</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <style>
+        body,p{
+            margin: 0;
+            padding: 0;
+        }
+        .cover{
+            width: 100%;
+            height: 200px;
+            background-color: rgba(0,0,0,.2);
+        }
+        .bounce-enter-active {
+            animation: bounce-in .5s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in .5s reverse;
+        }
+        @keyframes bounce-in {
+            0% {
+                height: 0;
+            }
+            100% {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <button @click="handleClick">Click me!</button>
+        <!-- <div class="cover" v-if="isShow"></div> -->
+        <cover :isshow="isShow"></cover>
+    </div>
+    <script>
+        let cover = {
+            template: `
+                <transition name="bounce">
+                    <div class="cover" v-if="isshow">
+                        <p>测试文本</p>
+                    </div>
+                </transition>
+            `,
+            props: ["isshow"]
+        }
+        new Vue({
+            el: '#box',
+            data: {
+                isShow: true,
+            },
+            methods: {
+               handleClick(){
+                   this.isShow = !this.isShow
+               } 
+            },
+            components: {
+                cover: cover
+            }
+        })
+    </script>
+</body>
+</html>
