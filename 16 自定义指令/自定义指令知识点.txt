@@ -1,7 +1,7 @@
 1、自定义指令 - 对 纯DOM元素 进行底层操作
     1）自定义指令介绍directives
     2）钩子函数
-        * 参数 el-元素节点, binding-元素身上绑定的属性, vnode(vnode.context)-虚拟结点
+        * 参数 el-元素节点, binding-元素身上绑定的变量, vnode(vnode.context)-Vue编译生成的虚拟节点, oldVnode-上一个虚拟节点
         * bind, inserted, update, componentUpdated, unbind
     3) 函数简写
     4) 对象字面量

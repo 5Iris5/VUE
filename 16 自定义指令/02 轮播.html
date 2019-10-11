@@ -5,20 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>轮播</title>
+    <link href="https://cdn.bootcss.com/Swiper/4.5.0/css/swiper.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/Swiper/4.5.0/js/swiper.js"></script>
     <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
     <style>
         body{
             margin: 0;
             padding: 0;
+            background: #000;
+        }
+        .swiper-slide{
+            box-sizing: border-box;
+            height: 150px;
+            border: 1px solid #ff3600;
+            color: #fff;
         }
     </style>
 </head>
 <body>
-    <div id="box">
-
+    <div id="swiper-container">
+        <!-- swiper-wrapper包裹所有轮播的页面 -->
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" v-for="(item, index) in itemLists" v-swipe="index">{{item}}</div>
+        </div>
+        <!-- swiper-pagination 轮播中页面的分页器 -->
+        <div class="swiper-pagination"></div>
     </div>
     <script>
-        
+        // 自定义指令 -> DOM渲染完之后,自定义指令里面的回调函数才会调用!!!!
+        // 自定义指令 中的 虚拟节点 -> 在节点创建并渲染完毕后才会执行
+        Vue.directive('swipe', function(el, binding, vnode){
+            // console.log(el, binding.value, vnode.context)
+            if(binding.value == vnode.context.itemLists.length - 1){
+                // console.log(vnode.context.itemLists.length - 1)
+                console.log('我是最后一个渲染的节点')
+                // 如果不加定时器,最后一个节点可能无法渲染到页面
+                setTimeout(() => {
+                    let swiper = new Swiper('#swiper-container', {
+                        pagination: '.swiper-container', // 初始化分页器
+                        paginationClickable: true, // 分页器可以点击
+                        autoplay: 1000,  // 自动轮播速度
+                        loop: true,  // 循环
+                        speed: 2000, // 切换速度
+                        spaceBetween: 0  // 间距
+                    })
+                }, 0);
+            }
+        })
+
+        let carousel = new Vue({
+            el: '#swiper-container',
+            data: {
+                itemLists: []
+            },
+            // 组件挂载到DOM节点后调用
+            mounted: function(){
+                // 异步请求数据
+                setTimeout(() => {
+                    // 数据请求成功并成功挂载到页面
+                    this.itemLists = ["page1", "page2", "page3"];
+                    // 操作Swiper组件 -> Swiper 第一个参数 帮助找到唯一容器
+                    // 出错!!! -> 轮播页面拖不动 
+                    // 原因? -> 没有等到最后一个节点创建并渲染完毕就运行了Swiper
+                    // 解决 -> 等到最后一个节点渲染完毕再执行Swiper
+                    // let swiper = new Swiper('#swiper-container', {
+                    //     pagination: '.swiper-container', // 初始化分页器
+                    //     paginationClickable: true, // 分页器可以点击
+                    //     autoplay: 1000,  // 自动轮播速度
+                    //     loop: true,  // 循环
+                    //     speed: 2000, // 切换速度
+                    //     spaceBetween: 100  // 间距
+                    // })
+                }, 2000);
+            }
+        })
+
+        /*
+            step1: 动态创建并挂载DOM节点
+            step2: 操作swiper组件里面封装好的内容
+        */
     </script>
 </body>
 </html>

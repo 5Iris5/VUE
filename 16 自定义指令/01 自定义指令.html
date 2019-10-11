@@ -15,10 +15,53 @@
 </head>
 <body>
     <div id="box">
-        
+        <p v-color="bgcolor">P标签</p>
     </div>
     <script>
-        
+        // 全局自定义指令
+        // Vue.directive('color',{
+        //     // 仅在被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
+        //     inserted: function(el, binding){
+        //         // console.log(el);
+        //         el.style.backgroundColor = "#ff3600";
+        //         console.log(binding);
+        //         el.style.backgroundColor = binding.value;
+        //     },
+        //     // 所在组件的 VNode 更新时调用
+        //     update: function(el, binding){
+        //         // console.log('数据更新时调用...')
+        //         el.style.backgroundColor = binding.value;
+        //     }
+        // })
+        // 上面效果简写
+        // Vue.directive('color', function(el, binding){
+        //     // console.log(el)
+        //     el.style.backgroundColor = binding.value
+        // })
+        let box = new Vue({
+            el: '#box',
+            data: {
+                bgcolor: 'gray'
+            },
+            // 局部指令
+            directives: {
+                // 'color': {
+                //     inserted: function(el, binding){
+                //         console.log(el);
+                //         console.log(binding);
+                //         el.style.backgroundColor = binding.value;
+                //     },
+                //     update: function(el, binding){
+                //         el.style.backgroundColor = binding.value;
+                //     }
+                // } 
+                // inserted方法 与 update方法 合并简写
+                'color': function(el, binding){
+                    // console.log(el, binding)
+                    el.style.backgroundColor = binding.value
+                }
+            }
+        })
     </script>
 </body>
 </html>
